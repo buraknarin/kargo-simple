@@ -6,11 +6,11 @@ metadata:
 spec:
   vars:
   - name: repoURL
-    value: https://github.com/akuity/kargo-simple.git
+    value: https://github.com/buraknarin/kargo-simple.git
   - name: branch
     value: main
   - name: image
-    value: ghcr.io/akuity/guestbook
+    value: ghcr.io/buraknarin/guestbook
   - name: openpr
     value: "false"
   steps:
@@ -67,12 +67,12 @@ spec:
       repoURL: ${{ vars.repoURL }}
       prNumber: ${{ task.outputs['open-pr'].prNumber }}
 
-  # If you have an Argo CD Application that should be synced after the Git
-  # repository is updated, uncomment the following lines and specify the
-  # app name.
-  # - uses: argocd-update
-  #   config:
-  #     apps:
-  #     - name: guestbook-${{ ctx.stage }}
-  #       sources:
-  #       - repoURL: ${{ vars.repoURL }}
+  # Sync the corresponding Argo CD Application after the Git repository is
+  # updated, so the cluster picks up the new image tag immediately instead
+  # of waiting for Argo CD's polling interval.
+  - uses: argocd-update
+    config:
+      apps:
+      - name: guestbook-${{ ctx.stage }}
+        sources:
+        - repoURL: ${{ vars.repoURL }}
