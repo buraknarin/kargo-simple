@@ -5,4 +5,4 @@ resources:
 namespace: guestbook-simple-dev
 images:
 - name: ghcr.io/buraknarin/guestbook
-  newTag: v0.30.15
+  newTag: v0.31.1
